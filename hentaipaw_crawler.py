@@ -32,4 +32,5 @@ class hentaipaw_crawler(crawler):
 
 
 hc = hentaipaw_crawler()
+hc.set_title('Hentaipaw')
 hc.start_show()

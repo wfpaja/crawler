@@ -13,10 +13,9 @@ class BaseView:
 
 
 class NormalView(BaseView):
-    def __init__(self, button_event, title_name = "tk"):
+    def __init__(self, button_event):
         super().__init__()
         self.button_event = button_event
-        self.window.title(title_name)
         self.url_label = tk.Label(self.window, text="網址：")
         self.url_entry = tk.Entry(self.window, width=50)
         self.start_button = tk.Button(self.window, text="執行", width=10, command=self.start_click)
@@ -30,3 +29,4 @@ class NormalView(BaseView):
 
     def set_url(self, text):
         self.url_entry.insert(0, text)
+    

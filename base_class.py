@@ -22,7 +22,7 @@ class crawler:
     def start_show(self, url=None):
         copy_str = cb.paste()
         if not url:
-            if copy_str:
+            if copy_str and copy_str.startswith('http'):
                 self.input_view.set_url(copy_str)
         else:
             self.input_view.set_url(url)        
@@ -59,3 +59,6 @@ class crawler:
         res = requests.get(url, headers=self.headers)
         res.raise_for_status()
         return res
+    
+    def set_title(self, title):
+        self.input_view.window.title(title)
