@@ -62,3 +62,10 @@ class crawler:
     
     def set_title(self, title):
         self.input_view.window.title(title)
+
+    def copy_str(text):
+        cb.copy(text)
+        print(f'cb paste: {cb.paste()}')
+
+    def paste_str():
+        return cb.paste()
