@@ -27,36 +27,39 @@ class e_hentai_selenium_crawler(crawler):
         print(f'num_len : {num_len}')
         next_page = pages_html.find('div', class_='gdtm').find('a')['href']  # 取得第一圖片頁連結
         print(f'next_page : {next_page}')
-        save_path = crawler.check_make_folder('ehentail', title)
-        save_path = os.path.abspath(save_path)
-        print(f'save_path: {save_path}')
-        for i in range(1):
+        folder_path = crawler.check_make_folder('ehentail', title)
+        folder_path = os.path.abspath(folder_path)
+        print(f'save_path: {folder_path}')
+        
+        for i in range(pic_count):
             driver.get(next_page)
+            pages_html = BeautifulSoup(driver.page_source, 'html.parser')
+            save_name = pages_html.find('div', id='i2').find_all('div')[2].text.split(" :: ")[0]
+            save_path = os.path.join(folder_path, save_name)
+            next_page = pages_html.find('div', id='i2').find(id='next')['href']
+            if os.path.exists(save_path):
+                print(f'file is exist!!!!')
+                time.sleep(1)
+                continue
             ele=driver.find_element(By.XPATH,'/html/body/div[1]/div[2]').find_element(By.XPATH,'//*[@id="img"]')
             ActionChains(driver).move_to_element(ele).context_click(ele).perform()
+            time.sleep(0.5)
             pyautogui.press('v')
+            time.sleep(0.5)
+            pyautogui.typewrite(['tab','tab','tab','tab','tab','tab','enter'])
+            time.sleep(0.5)
+            crawler.copy_str(folder_path)
+            pyautogui.hotkey('ctrl', 'v')
+            time.sleep(0.5)
+            pyautogui.press('enter')
             time.sleep(1)
-            pyautogui.hotkey('ctrl', 'c')
-            aaa = crawler.paste_str()
-            print(f'aaa: {aaa}')
-            file_path = os.path.join(save_path, aaa)
-            print(f'file path: {file_path}')
-            print(os.path.exists(file_path))
-            # time.sleep(1)
-            # pyautogui.typewrite(['tab','tab','tab','tab','tab','tab','enter'])
-            # crawler.copy_str(save_path)
-            # pyautogui.hotkey('ctrl', 'v')
-            # pyautogui.typewrite(['enter'])
-            # pyautogui.hotkey('alt', 's')
-            # pages_html = BeautifulSoup(driver.page_source, 'html.parser')
-            # if pages_html != None:
-            #     next_page = pages_html.find('div', id='i2').find(id='next')['href']
-            #     print(f'next page: {next_page}')
+            pyautogui.hotkey('alt', 's')
+            time.sleep(2)
 
         
 
 ec = e_hentai_selenium_crawler()
 ec.set_title('E-Hentai')
-ec.start_show()
+ec.start_show('https://e-hentai.org/g/2577713/9d441aab51/')
 
 
