@@ -36,7 +36,7 @@ class e_hentai_selenium_crawler(crawler):
         next_page = html_content.find('div', class_='gdtm').find('a')['href']  
         print(f'next_page : {next_page}')
         #  檢查並創建資料夾
-        folder_path = crawler.check_make_folder('ehentail', title)
+        folder_path = crawler.check_make_folder('ehentai', title)
         folder_path = os.path.abspath(folder_path)
         print(f'save_path: {folder_path}')
         crawler.copy_str(folder_path) # 複製資料夾位置

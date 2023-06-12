@@ -1,10 +1,6 @@
 import os.path
 import time
-
-import requests
-from bs4 import BeautifulSoup
 from base_class import crawler
-
 
 
 
@@ -13,12 +9,8 @@ class wnacg_crawler(crawler):
         super().__init__()
 
     def start_crawler(self, url):
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                             'Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.50'}
-        res = requests.get(url, headers=headers)
-        res.raise_for_status()
+        content = self.get_content(url)
         front = 'https://www.wnacg.com'
-        content = BeautifulSoup(res.text, 'html.parser')
         page = content.find('li', class_='li tb gallary_item')
         page_url = front + page.find('a')['href']
         page_info = content.find('div', class_='userwrap')
@@ -30,9 +22,7 @@ class wnacg_crawler(crawler):
         print(count)
         folder_path = crawler.check_make_folder('wnacg', title)
         for i in range(count):
-            res = requests.get(page_url, headers=headers)
-            res.raise_for_status()
-            content = BeautifulSoup(res.text, 'html.parser')
+            content = self.get_content(page_url)
             img_info = content.find('span', id='imgarea')
             img_url = 'https:' + img_info.find('img')['src']
             print(img_url)
