@@ -36,7 +36,9 @@ class e_hentai_crawler(crawler):
             pic_save_path = os.path.join(save_path, pic_name)  # 存檔路徑
             crawler.download_img(pic_src, pic_save_path)
             next_page = page_html.find('div', id='i3').find('a')['href']    # 下一頁
+            # 每抓三頁 會間隔較長時間  連續短時間抓會被鎖IP 一、二個小時 
             if (i+1) % 3 == 0:
+                print('wait')
                 time.sleep(random.randint(10, 20))
             time.sleep(1)
         print('finish')
